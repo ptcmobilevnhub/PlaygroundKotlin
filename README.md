@@ -6,9 +6,9 @@ GUIDE
   Setup
     Android Studio 3.2
   
-    Dependencies:
-        // Navigation Dependencies
-        implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha04'
+  Dependencies:
+    // Navigation Dependencies
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha04'
   
   Features:
     1. Login
