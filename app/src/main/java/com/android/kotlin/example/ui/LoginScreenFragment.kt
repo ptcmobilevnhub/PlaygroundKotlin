@@ -17,18 +17,17 @@ class LoginScreenFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_go_to_login.setOnClickListener { button ->
+        btn_go_to_login.setOnClickListener {
             val userName = edt_username.text.toString().trim()
             val pwd = edt_password.text.toString().trim()
 
             if(userName.equals("pyco", true) && pwd.equals("123")){
                 // go to home screen
-                Navigation.findNavController(button).navigate(R.id.homeScreenFragment)
+                Navigation.findNavController(it).navigate(R.id.goToHome)
             } else {
                 // show error log
                 Toast.makeText(context, "Login failed!", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 }
