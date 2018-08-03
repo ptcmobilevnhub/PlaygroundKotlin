@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    android:id="@+id/nav_graph"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/splashScreenFragment">
+
+    <fragment android:id="@+id/splashScreenFragment"
+              android:name="com.android.kotlin.example.ui.SplashScreenFragment"
+              android:label="Splash Screen Fragment"
+              tools:layout="@layout/splash_screen_fragment">
+
+        <action android:id="@+id/goToLogin" app:destination="@id/loginScreenFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"/>
+
+        <action android:id="@+id/goToHome" app:destination="@id/homeScreenFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/loginScreenFragment" android:name="com.android.kotlin.example.ui.LoginScreenFragment"
+              android:label="LoginScreenFragment"/>
+
+    <fragment android:id="@+id/homeScreenFragment" android:name="com.android.kotlin.example.ui.HomeScreenFragment"
+              android:label="HomeScreenFragment"/>
+
+</navigation>
