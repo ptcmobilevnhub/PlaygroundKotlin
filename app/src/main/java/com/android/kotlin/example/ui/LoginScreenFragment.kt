@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.View
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.android.kotlin.example.R
 import com.android.kotlin.example.data.GithubApi
 import com.android.kotlin.example.data.RetrofitClient
@@ -21,6 +19,17 @@ import retrofit2.Response
 class LoginScreenFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.login_screen_fragment
+
+
+    private var mListener :  OnLoginFragmentListener? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (activity is OnLoginFragmentListener) {
+            mListener = activity as OnLoginFragmentListener
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,23 +57,27 @@ class LoginScreenFragment : BaseFragment() {
         val request = loginService.login(authentication)
         request.enqueue(object : Callback<UserResponse> {
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserResponse>, error: Throwable) {
                 //Toast.makeText(context, "onFailure " + t.message, Toast.LENGTH_SHORT).show()
+                mListener?.onLoginFailed(error.message)
             }
 
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 if(response != null && response.isSuccessful){
                     val userResponse = response.body()
-                    val arg = Bundle()
-                    arg.putString("name", userResponse?.name)
 
-                    getNavController().navigate(R.id.action_Login_To_Home, arg)
+                    /*val arg = Bundle()
+                    arg.putString("name", userResponse?.name)
+                    getNavController().navigate(R.id.action_Login_To_Home, arg)*/
+
+                    mListener?.onLoginSuccess(userResponse?.name)
                 }
             }
         })
     }
 
-    private fun getNavController(): NavController {
-        return Navigation.findNavController(activity!!, R.id.navigation_host_fragment)
+    interface OnLoginFragmentListener {
+        fun onLoginSuccess(userName : String?)
+        fun onLoginFailed(error : String?)
     }
 }

@@ -7,14 +7,16 @@ class SingletonKotlin private constructor(){
 
     init {
         // define in constructor
-        println("SingletonKotlin -> init")
+        println(">>> SingletonKotlin -> init")
+
     }
 
     private object Holder {
 
-        val INSTANCE = SingletonKotlin()
-        fun print() {
-            println("SingletonKotlin -> Holder print")
+        val instance = SingletonKotlin()
+
+        fun foo() {
+            println(">>> SingletonKotlin -> Holder foo")
         }
     }
 
@@ -22,8 +24,9 @@ class SingletonKotlin private constructor(){
 
         @JvmStatic
         fun getInstance(): SingletonKotlin {
-            println(">>> getInstance @" + hashCode())
-            return Holder.INSTANCE
+            println(">>> SingletonKotlin getInstance @" + hashCode())
+            Holder.foo()
+            return Holder.instance
         }
     }
 

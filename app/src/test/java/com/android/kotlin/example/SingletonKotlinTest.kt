@@ -11,6 +11,6 @@ class SingletonKotlinTest {
     fun test_getInstance() {
         var obj1 = SingletonKotlin.getInstance()
 
-        var obj2 = SingletonKotlin.getInstance()
+        //var obj2 = SingletonKotlin.getInstance()
     }
 }
