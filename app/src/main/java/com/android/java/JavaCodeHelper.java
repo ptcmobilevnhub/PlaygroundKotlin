@@ -1,4 +1,4 @@
-package com.android.kotlin.example;
+package com.android.java;
 
 /**
  * Created by Vinh.Tran on 8/3/18.

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.android.kotlin.example.R
@@ -42,15 +41,15 @@ class LoginScreenFragment : BaseFragment() {
         val auth = "$userName:$password";
         val authentication = "Basic " + Base64.encodeToString(auth.toByteArray(), Base64.NO_WRAP)
 
-        val retrofit = RetrofitClient().getInstance()
-        Log.d(javaClass.name, ">>> retrofit instance @${retrofit.hashCode()}" )
+        val retrofit = RetrofitClient.getInstance()
+        Log.d(javaClass.name, ">>> login retrofit instance @${retrofit.hashCode()}" )
 
         val loginService = retrofit.create(GithubApi::class.java)
         val request = loginService.login(authentication)
         request.enqueue(object : Callback<UserResponse> {
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Toast.makeText(context, "onFailure " + t.message, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "onFailure " + t.message, Toast.LENGTH_SHORT).show()
             }
 
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
@@ -58,6 +57,7 @@ class LoginScreenFragment : BaseFragment() {
                     val userResponse = response.body()
                     val arg = Bundle()
                     arg.putString("name", userResponse?.name)
+
                     getNavController().navigate(R.id.action_Login_To_Home, arg)
                 }
             }

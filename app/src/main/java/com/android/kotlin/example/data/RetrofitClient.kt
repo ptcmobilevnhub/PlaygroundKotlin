@@ -9,13 +9,46 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Created by Vinh.Tran on 9/7/18.
  **/
-class RetrofitClient {
+class RetrofitClient private constructor(){
 
-    private var retrofit: Retrofit? = null
-    private val BASE_URL = "https://api.github.com/"
+    private var mRetrofit: Retrofit? = null
 
-    fun getInstance(): Retrofit {
-        if (retrofit == null) {
+    init {
+        println(">>> RetrofitClient -> init @" + hashCode())
+
+        val builder = OkHttpClient.Builder()
+        // show logs
+        if (BuildConfig.DEBUG) {
+            val logging = HttpLoggingInterceptor()
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            builder.interceptors().add(logging)
+        }
+
+        val okHttpClient = builder.build()
+
+        mRetrofit = Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build()
+    }
+
+    private object Holder {
+        val INSTANCE = RetrofitClient()
+    }
+
+    companion object {
+        @JvmStatic
+        fun getInstance(): Retrofit {
+            println(">>> getInstance " + this.javaClass.simpleName + " @" + this.hashCode())
+            return Holder.INSTANCE.mRetrofit!!
+        }
+    }
+
+
+
+    /*fun getInstance(): Retrofit {
+        if (mRetrofit == null) {
 
             val builder = OkHttpClient.Builder()
             // show logs
@@ -27,13 +60,13 @@ class RetrofitClient {
 
             val okHttpClient = builder.build()
 
-            retrofit = Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+            mRetrofit = Retrofit.Builder()
+                    .baseUrl("https://api.github.com/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
                     .build()
         }
 
-        return retrofit!!
-    }
+        return mRetrofit!!
+    }*/
 }
