@@ -13,7 +13,7 @@
         tools:layout="@layout/splash_screen_fragment">
 
         <action
-            android:id="@+id/goToLogin"
+            android:id="@+id/actionSplashToLogin"
             app:destination="@id/loginScreenFragment"
             app:enterAnim="@anim/frag_enter"
             app:exitAnim="@anim/frag_exit"
@@ -27,9 +27,9 @@
         android:name="com.android.kotlin.example.ui.LoginScreenFragment"
         android:label="LoginScreenFragment">
         <action
-            android:id="@+id/goToHome"
+            android:id="@+id/action_Login_To_Home"
             app:destination="@id/homeScreenFragment"
-            />
+        />
     </fragment>
 
     <fragment
