@@ -42,7 +42,10 @@ class LoginScreenFragment : BaseFragment() {
         val auth = "$userName:$password";
         val authentication = "Basic " + Base64.encodeToString(auth.toByteArray(), Base64.NO_WRAP)
 
-        val loginService = RetrofitClient().getInstance().create(GithubApi::class.java)
+        val retrofit = RetrofitClient().getInstance()
+        Log.d(javaClass.name, ">>> retrofit instance @${retrofit.hashCode()}" )
+
+        val loginService = retrofit.create(GithubApi::class.java)
         val request = loginService.login(authentication)
         request.enqueue(object : Callback<UserResponse> {
 
@@ -51,9 +54,6 @@ class LoginScreenFragment : BaseFragment() {
             }
 
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-
-                Log.d("TEST", ">>> : response.isSuccessful " + response.isSuccessful);
-
                 if(response != null && response.isSuccessful){
                     val userResponse = response.body()
                     val arg = Bundle()
