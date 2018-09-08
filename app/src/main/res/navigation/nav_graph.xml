@@ -13,7 +13,7 @@
         tools:layout="@layout/splash_screen_fragment">
 
         <action
-            android:id="@+id/actionSplashToLogin"
+            android:id="@+id/action_splash_to_login"
             app:destination="@id/loginScreenFragment"
             app:enterAnim="@anim/frag_enter"
             app:exitAnim="@anim/frag_exit"

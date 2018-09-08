@@ -16,6 +16,13 @@ class HomeScreenFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tv_welcome.text = arguments?.getString("name", "Please Login")
+        val welcomeMsg = arguments?.getString("name", "Please Login")
+
+        tv_welcome.text = welcomeMsg
+        btn_login.visibility = if (welcomeMsg.equals("Please Login")) View.VISIBLE else View.GONE
+
+        btn_login.setOnClickListener {
+            LoginScreenFragment().show(activity?.supportFragmentManager, "login_dialog")
+        }
     }
 }

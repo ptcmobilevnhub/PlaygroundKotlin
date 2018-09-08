@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.android.kotlin.example.R
+
+
 
 class MainActivity : AppCompatActivity(), LoginScreenFragment.OnLoginFragmentListener {
 
@@ -25,11 +28,9 @@ class MainActivity : AppCompatActivity(), LoginScreenFragment.OnLoginFragmentLis
     }
 
     override fun onLoginSuccess(userName: String?) {
-
         val arg = Bundle()
         arg.putString("name", userName)
-
-        getNavController().navigate(R.id.action_Login_To_Home, arg)
+        getNavController().navigate(R.id.homeScreenFragment, arg, NavOptions.Builder().setPopUpTo(R.id.nav_graph, true).build())
     }
 
     override fun onLoginFailed(error: String?) {

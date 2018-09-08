@@ -18,7 +18,11 @@ class SplashScreenFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_go_to_login.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.actionSplashToLogin))
+        btn_go_to_login.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_splash_to_login))
+
+        btn_go_to_login.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.loginScreenFragment)
+        }
     }
 
 }

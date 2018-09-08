@@ -3,7 +3,10 @@ package com.android.kotlin.example.ui
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
 import com.android.kotlin.example.R
 import com.android.kotlin.example.data.GithubApi
 import com.android.kotlin.example.data.RetrofitClient
@@ -16,7 +19,7 @@ import retrofit2.Response
 /**
  * Created by Vinh.Tran on 8/3/18.
  **/
-class LoginScreenFragment : BaseFragment() {
+class LoginScreenFragment : BaseDialogFragment() {
 
     override fun getLayoutId() = R.layout.login_screen_fragment
 
@@ -25,10 +28,17 @@ class LoginScreenFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(javaClass.name, ">>> onCreate : dialog?.isShowing " + dialog?.isShowing)
 
         if (activity is OnLoginFragmentListener) {
             mListener = activity as OnLoginFragmentListener
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d(javaClass.name, ">>> onCreateView : dialog?.isShowing " + dialog?.isShowing)
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,9 +51,18 @@ class LoginScreenFragment : BaseFragment() {
             login(userName, pwd)
         }
 
-        btn_guest.setOnClickListener {
-            getNavController().navigate(R.id.action_Login_To_Home)
+        if (dialog != null) {
+            btn_guest.visibility = View.GONE
+        } else {
+            btn_guest.setOnClickListener {
+                getNavController().navigate(R.id.homeScreenFragment)
+            }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(javaClass.name, ">>> onResume : dialog?.isShowing " + dialog?.isShowing)
     }
 
     private fun login(userName: String, password: String) {
@@ -64,13 +83,15 @@ class LoginScreenFragment : BaseFragment() {
 
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 if(response != null && response.isSuccessful){
+
+                    if (dialog != null) {
+                        dismiss()
+                    }
+
                     val userResponse = response.body()
-
-                    /*val arg = Bundle()
-                    arg.putString("name", userResponse?.name)
-                    getNavController().navigate(R.id.action_Login_To_Home, arg)*/
-
                     mListener?.onLoginSuccess(userResponse?.name)
+                } else {
+                    Toast.makeText(context, "login failed!", Toast.LENGTH_SHORT).show()
                 }
             }
         })
