@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">KotlinExample</string>
+    <string name="app_name">KOTLIN TRAINING</string>
+    <string name="welcome">WELCOME KOTLIN</string>
 </resources>
