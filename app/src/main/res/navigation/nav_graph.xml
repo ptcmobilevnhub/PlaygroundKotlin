@@ -35,6 +35,10 @@
     <fragment
         android:id="@+id/homeScreenFragment"
         android:name="com.android.kotlin.example.ui.HomeScreenFragment"
-        android:label="HomeScreenFragment"/>
+        android:label="HomeScreenFragment">
+        <action android:id="@+id/action_homeScreenFragment_to_friendListFragment" app:destination="@id/friendListFragment"/>
+    </fragment>
+    <fragment android:id="@+id/friendListFragment" android:name="com.android.kotlin.example.ui.FriendListFragment" android:label="fragment_friend_list"
+              tools:layout="@layout/fragment_friend_list"/>
 
 </navigation>

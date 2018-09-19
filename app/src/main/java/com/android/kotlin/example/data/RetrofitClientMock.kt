@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Created by Vinh.Tran on 9/7/18.
  **/
-object RetrofitClient {
+object RetrofitClientMock {
 
     private var mRetrofit: Retrofit? = null
 
@@ -26,7 +26,7 @@ object RetrofitClient {
         val okHttpClient = builder.build()
 
         mRetrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
+                .baseUrl("http://5b680659629e280014570c80.mockapi.io/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()

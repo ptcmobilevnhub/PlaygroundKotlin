@@ -2,6 +2,7 @@ package com.android.kotlin.example.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.Navigation
 import com.android.kotlin.example.R
 import kotlinx.android.synthetic.main.home_screen_fragment.*
 
@@ -23,6 +24,10 @@ class HomeScreenFragment : BaseFragment() {
 
         btn_login.setOnClickListener {
             LoginScreenFragment().show(activity?.supportFragmentManager, "login_dialog")
+        }
+
+        btn_friends.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.friendListFragment)
         }
     }
 }
