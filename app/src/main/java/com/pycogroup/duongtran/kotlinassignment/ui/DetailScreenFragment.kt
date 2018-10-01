@@ -1,5 +1,7 @@
 package com.pycogroup.duongtran.kotlinassignment.ui
 
+import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,6 +18,9 @@ import retrofit2.Response
 
 
 class DetailScreenFragment : BaseFragment() {
+
+    lateinit var mAlertBuilder: AlertDialog.Builder
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_detail_screen
     }
@@ -24,6 +29,17 @@ class DetailScreenFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getFriendInfo()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mAlertBuilder = AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert)
+        } else {
+            mAlertBuilder = AlertDialog.Builder(context)
+        }
+        mAlertBuilder = AlertDialog.Builder(context).setTitle("Error").setMessage("Getting friend info failed, please try again")
+                .setPositiveButton("Try again", { dialog, i ->
+                    getFriendInfo()
+                })
+                .setNegativeButton("Cancel", { dialog, i -> })
     }
 
     private fun getFriendInfo() {
@@ -39,7 +55,7 @@ class DetailScreenFragment : BaseFragment() {
 
                 override fun onFailure(call: Call<FriendModel>, error: Throwable) {
                     Log.d("onFailure", error.toString())
-                    Toast.makeText(context, "Getting friend data failed", Toast.LENGTH_SHORT).show()
+                    mAlertBuilder.show()
                 }
 
                 override fun onResponse(call: Call<FriendModel>, response: Response<FriendModel>) {
@@ -50,7 +66,7 @@ class DetailScreenFragment : BaseFragment() {
                             Picasso.get().load(friendInfo.avatar_url).into(img_avatar)
                         } else {
                             Log.d("onFailure", response.toString())
-                            Toast.makeText(context, "Getting friend data failed", Toast.LENGTH_SHORT).show()
+                            mAlertBuilder.show()
                         }
                     }
                 }

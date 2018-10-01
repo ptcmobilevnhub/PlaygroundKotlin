@@ -1,6 +1,10 @@
 package com.pycogroup.duongtran.kotlinassignment.ui
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
+import android.support.v7.widget.AlertDialogLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -26,11 +30,23 @@ class HomeScreenFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_home_screen
 
     var mFriendListAdapter : FriendListAdapter? = null
+    lateinit var mAlertBuilder: AlertDialog.Builder
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO init recycle view
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mAlertBuilder = AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert)
+        } else {
+            mAlertBuilder = AlertDialog.Builder(context)
+        }
+        mAlertBuilder = AlertDialog.Builder(context).setTitle("Error").setMessage("Getting friend failed, please try again")
+                .setPositiveButton("Try again", { dialog, i ->
+                    getFriendList()
+                })
+                .setNegativeButton("Cancel", { dialog, i -> })
+
+
         recycle_view.layoutManager = LinearLayoutManager(context)
 
         mFriendListAdapter = FriendListAdapter()
@@ -48,7 +64,7 @@ class HomeScreenFragment : BaseFragment() {
 
             override fun onFailure(call: Call<List<FriendModel>>, error: Throwable) {
                 Log.d("onFailure", error.toString())
-                Toast.makeText(context, "R.string.home_get_friend_list_failed", Toast.LENGTH_SHORT).show()
+                mAlertBuilder.show()
             }
 
             override fun onResponse(call: Call<List<FriendModel>>, response: Response<List<FriendModel>>) {
@@ -58,7 +74,7 @@ class HomeScreenFragment : BaseFragment() {
                         mFriendListAdapter!!.setItemList(friendList)
                     } else {
                         Log.d("onFailure", response.toString())
-                        Toast.makeText(context, R.string.home_get_friend_list_failed, Toast.LENGTH_SHORT).show()
+                        mAlertBuilder.show()
                     }
                 }
             }
@@ -113,4 +129,6 @@ class HomeScreenFragment : BaseFragment() {
             }
         }
     }
+
+
 }
