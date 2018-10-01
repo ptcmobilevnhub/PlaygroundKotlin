@@ -1,7 +1,7 @@
-package com.android.kotlin.example
+package com.pycogroup.duongtran.kotlinassignment
 
-import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
 
 class MainActivity : AppCompatActivity() {
 
