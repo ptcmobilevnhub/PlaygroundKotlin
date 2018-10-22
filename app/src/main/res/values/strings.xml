@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">KotlinExample</string>
+    <string name="app_name">ToanNCKotlinAssessment</string>
+    <string name="title_klfriend_detail">KLFriend Detail</string>
 </resources>
