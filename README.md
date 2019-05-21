@@ -6,7 +6,7 @@ GUIDE
   Features:
     1. Login
     2. Home Screen
-        - Listing Item
+        - Item List
         
   What will we learn?
     - Basic Kotlin Syntax 
